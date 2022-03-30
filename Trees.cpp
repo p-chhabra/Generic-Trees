@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
 template<typename T>
@@ -51,6 +51,61 @@ void printTree(treeNode<int> * root)
     }
 }
 
+treeNode<int> * takeInputLevelWise()
+{
+    int rootData;
+    cout<<"Enter rootData: ";
+    cin>>rootData;
+    treeNode<int> * root = new treeNode<int>(rootData);
+
+    queue<treeNode<int>*> q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+        treeNode<int> * f = q.front();
+        q.pop();
+
+        cout<<"Enter number of children of "<<f->data<<": "<<endl;
+        int n;
+        cin>>n;
+
+        for(int i =0; i<n; i++)
+        {
+            int childData;
+            cout<<"Enter "<<i+1<<"th child of "<<f->data<<endl;
+            cin>>childData;
+
+            treeNode<int> * childNode = new treeNode<int>(childData);
+            q.push(childNode);
+            f->children.push_back(childNode);
+        }
+    }
+
+    return root;
+}
+
+void printLevelWise(treeNode<int> * root)
+{
+    queue<treeNode<int>*> q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+        treeNode<int> * f = q.front();
+        q.pop();
+
+        cout<<f->data<<": ";
+
+        for(int i=0; i<f->children.size(); i++)
+        {
+            q.push(f->children[i]);
+            cout<<f->children[i]->data<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 int main()
 {
     /*
@@ -69,9 +124,12 @@ int main()
 
     */
 
-    treeNode<int> * root = takeInput();
+    /*treeNode<int> * root = takeInput();*/
+    treeNode<int> * root = takeInputLevelWise();
 
     printTree(root);
+    cout<<endl;
+    printLevelWise(root);
 
     return 0;
 }
