@@ -232,6 +232,77 @@ void printNodesAtLevel(treeNode<int> * root, int level)
     }
 }
 
+///Print Leaf Nodes
+void printLeafNodes(treeNode<int> * root)
+{
+    if(!root) return;
+
+    for(int i =0; i<root->children.size(); i++)
+    {
+        if(root->children[i]->children.size() == 0)
+        {
+            cout<<root->children[i]->data<<" ";
+        }
+        printLeafNodes(root->children[i]);
+    }
+}
+
+///Count Leaf Nodes
+int countLeafNodes(treeNode<int> * root)
+{
+    if(!root) return 0;
+
+    if(root->children.size() == 0)
+    {
+        return 1;
+    }
+
+    int count = 0;
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        count += countLeafNodes(root->children[i]);
+    }
+    return count;
+}
+
+///Pre-Order Traversal
+void preOrder(treeNode<int> * root)
+{
+    if(!root) return;
+    cout<<root->data<<" ";
+
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        preOrder(root->children[i]);
+    }
+}
+
+///Post-Order Traversal
+void postOrder(treeNode<int> * root)
+{
+    if(!root) return;
+
+    for(int i =0; i<root->children.size(); i++)
+    {
+        postOrder(root->children[i]);
+    }
+    cout<<root->data<<" ";
+}
+
+///Delete Tree
+void deleteTree(treeNode<int> * root)
+{
+    if(!root) return;
+
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        deleteTree(root);
+    }
+
+    delete root;
+}
+
+/// Tree: 1 3 2 3 4 2 5 6 2 7 8 0 0 0 0 1 9 0
 int main()
 {
     /*
@@ -262,6 +333,9 @@ int main()
     cout<<"Height of tree: "<<heightOfTree(root)<<endl;
     cout<<"Nodes at level 1: "<<endl;
     printNodesAtLevel(root, 1);
-
+    cout<<endl<<"Leaf Nodes: ";
+    printLeafNodes(root);
+    cout<<endl;
+    cout<<"Number of leaf Nodes: "<<countLeafNodes(root)<<endl;
     return 0;
 }
