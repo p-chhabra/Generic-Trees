@@ -85,6 +85,44 @@ treeNode<int> * takeInputLevelWise()
     return root;
 }
 
+/*
+treeNode<int> * takeInput2()
+{
+    int rootData;
+    cout<<"Enter rootData: ";
+    cin>>rootData;
+
+    treeNode<int> * root = new treeNode<int>(rootData);
+
+    queue<treeNode<int>*> q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+        treeNode<int> * f = q.front();
+        q.pop();
+
+        int n;
+        cout<<"Enter number of children of "<<f->data<<": ";
+        cin>>n;
+
+        for(int i =0; i<n; i++)
+        {
+            int child;
+            cout<<"Enter "<<i+1<<"th child of "<<f->data<<": ";
+            cin>>child;
+
+            treeNode<int> * childNode = new treeNode<int>(child);
+            q.push(childNode);
+            f->children.push_back(childNode);
+        }
+
+    }
+
+    return root;
+}
+*/
+
 void printLevelWise(treeNode<int> * root)
 {
     queue<treeNode<int>*> q;
@@ -99,11 +137,39 @@ void printLevelWise(treeNode<int> * root)
 
         for(int i=0; i<f->children.size(); i++)
         {
-            q.push(f->children[i]);
             cout<<f->children[i]->data<<" ";
         }
         cout<<endl;
+
+        for(int i =0; i<f->children.size(); i++)
+        {
+            q.push(f->children[i]);
+        }
     }
+}
+
+int countNodes(treeNode<int>* root)
+{
+    if(!root){
+        cout<<"Tree doesn't exist"<<endl;
+        return 0;
+    }
+    int count = 1;
+    queue<treeNode<int>*> q;
+    q.push(root);
+
+    while(!q.empty())
+    {
+        treeNode<int> * f = q.front();
+        q.pop();
+
+        for(int i = 0; i<f->children.size(); i++)
+        {
+            count++;
+            q.push(f->children[i]);
+        }
+    }
+    return count;
 }
 
 int main()
@@ -125,11 +191,14 @@ int main()
     */
 
     /*treeNode<int> * root = takeInput();*/
+    /*treeNode<int> * root = takeInputLevelWise();*/
     treeNode<int> * root = takeInputLevelWise();
 
     printTree(root);
     cout<<endl;
     printLevelWise(root);
+    cout<<endl;
+    cout<<"Nodes in tree: "<<countNodes(root)<<endl;
 
     return 0;
 }
