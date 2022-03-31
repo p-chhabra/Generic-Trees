@@ -148,6 +148,7 @@ void printLevelWise(treeNode<int> * root)
     }
 }
 
+///Count Nodes iteration method
 int countNodes(treeNode<int>* root)
 {
     if(!root){
@@ -170,6 +171,65 @@ int countNodes(treeNode<int>* root)
         }
     }
     return count;
+}
+
+///Count Nodes - Recursion method
+int countNodesRec(treeNode<int> * root)
+{
+    if(!root)
+    {
+        cout<<"Tree does not exist"<<endl;
+        return 0;
+    }
+    int count = 1;
+
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        count += countNodesRec(root->children[i]);
+    }
+    return count;
+}
+
+///Height of tree - Recursive
+int heightOfTree(treeNode<int> * root)
+{
+    if(!root)
+    {
+        cout<<"Tree does not exist"<<endl;
+        return 0;
+    }
+    int maxHeight = 0;
+
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        int height = heightOfTree(root->children[i]);
+        if(height > maxHeight)
+        {
+            maxHeight = height;
+        }
+    }
+    return maxHeight + 1;
+}
+
+///Print all nodes at level K
+void printNodesAtLevel(treeNode<int> * root, int level)
+{
+    if(!root)
+    {
+        cout<<"Tree does not exist"<<endl;
+        return;
+    }
+
+    if(level == 0)
+    {
+        cout<<root->data<<" ";
+        return;
+    }
+
+    for(int i = 0; i<root->children.size(); i++)
+    {
+        printNodesAtLevel(root->children[i], level-1);
+    }
 }
 
 int main()
@@ -199,6 +259,9 @@ int main()
     printLevelWise(root);
     cout<<endl;
     cout<<"Nodes in tree: "<<countNodes(root)<<endl;
+    cout<<"Height of tree: "<<heightOfTree(root)<<endl;
+    cout<<"Nodes at level 1: "<<endl;
+    printNodesAtLevel(root, 1);
 
     return 0;
 }
