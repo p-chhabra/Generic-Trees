@@ -13,6 +13,14 @@ public:
     {
         this->data = data;
     }
+
+    ~treeNode()
+    {
+        for(int i = 0; i<children.size(); i++)
+        {
+            delete children[i]; ///This will act like a recursive call ///Same as delete tree function
+        }
+    }
 };
 
 treeNode<int> * takeInput()
