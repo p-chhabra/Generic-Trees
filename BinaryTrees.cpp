@@ -1,5 +1,5 @@
 #include <iostream>
-#inlcude <queue>
+#include <queue>
 using namespace std;
 
 template <typename T>
@@ -63,18 +63,14 @@ BTNode<int> * InputRecursive()
 
 ///LEVEL WISE INPUT
 //A Better and more comfortable way to take input
-BTNode * inputLevelWise()
+BTNode<int> * inputLevelWise()
 {
     int rootData;
     cout<<"Enter the value of root: ";
     cin>>rootData;
-    if(data == -1)
-    {
-        return NULL;
-    }
     BTNode<int> * root = new BTNode<int>(rootData);
 
-    queue<BTNode<int>> q;
+    queue<BTNode<int>*> q;
     q.push(root);
 
     while(!q.empty())
@@ -83,24 +79,134 @@ BTNode * inputLevelWise()
         q.pop();
 
         int left,right;
-        cout<<"Enter left child of "<<f->data<<" ";
+        cout<<"Enter left child of "<<f->data<<": ";
         cin>>left;
-        q.push(left);
-        f->left = left;
-        cout<<"Enter the right child of "<<f->data<<" ";
+        if(left != -1)
+        {
+            BTNode<int> * child = new BTNode<int>(left);
+            q.push(child);
+            f->left = child;
+        }
+        cout<<"Enter the right child of "<<f->data<<": ";
         cin>>right;
-        q.push(right);
+        if(right != -1)
+        {
+            BTNode<int> * child = new BTNode<int>(right);
+            q.push(child);
+            f->right = child;
+        }
 
 
     }
+    return root;
+}
+
+void printLevelWise(BTNode<int> * root)
+{
+    if(!root)
+    {
+        cout<<"Tree does not exist!"<<endl;
+        return;
+    }
+
+    queue<BTNode<int>*> q;
+    q.push(root);
+    while(!q.empty())
+    {
+        BTNode<int> * f = q.front();
+        q.pop();
+        cout<<f->data<<": ";
+        if(f->left)
+        {
+            cout<<"L"<<f->left->data<<" ";
+            q.push(f->left);
+        }
+        if(f->right)
+        {
+            cout<<"R"<<f->right->data<<" ";
+            q.push(f->right);
+        }
+        cout<<endl;
+    }
+}
+
+///Iterative Method || Level Order Traversal
+int countTreeNodes(BTNode<int> * root)
+{
+    if(!root)
+    {
+        cout<<"Tree does not exist"<<endl;
+        return -1;
+    }
+
+    queue<BTNode<int>*> q;
+    q.push(root);
+
+    int count = 1;
+    while(!q.empty())
+    {
+        BTNode<int> * f = q.front();
+        q.pop();
+
+        if(f->left)
+        {
+            count++;
+            q.push(f->left);
+        }
+        if(f->right)
+        {
+            count++;
+            q.push(f->right);
+        }
+    }
+    return count;
 }
 
 
+///Recursive Method
+int countTreeNodesRec(BTNode<int> * root)
+{
+    if(!root)
+    {
+        return -1;
+    }
+    int count = 1;
+
+    if(root->left){
+        count = count + countTreeNodesRec(root->left);
+    }
+    if(root->right){
+        count = count + countTreeNodesRec(root->right);
+    }
+    return count;
+}
+
+///InOrder Traversal print
+void printInorder(BTNode<int> * root)
+{
+    if(!root){
+        return;
+    }
+
+    printInorder(root->left);
+    cout<<root->data<<" ";
+    printInorder(root->right);
+}
+
+//Test Binary Tree - 1 2 3 4 5 6 7
+
 int main()
 {
-    BTNode<int> * root = InputRecursive();
+    //BTNode<int> * root = InputRecursive();
+    BTNode<int> * root = inputLevelWise();
     cout<<endl;
-    printRecursive(root);
+    //printRecursive(root);
+    printLevelWise(root);
+
+    //cout<<"Number of Nodes: "<<countTreeNodesRec(root)<<endl;
+    cout<<"Number of Nodes: "<<countTreeNodes(root)<<endl;
+    cout<<endl;
+    printInorder(root);
 
     delete root;
 
