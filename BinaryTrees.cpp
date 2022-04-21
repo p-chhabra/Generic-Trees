@@ -193,7 +193,28 @@ void printInorder(BTNode<int> * root)
     printInorder(root->right);
 }
 
-//Test Binary Tree - 1 2 3 4 5 6 7
+int maxDepthBT(BTNode<int> * root)
+{
+    if(!root) return 0;
+
+    int maxHeight = 0;
+
+    if(root->left){
+        int height = maxDepthBT(root->left);
+        if(maxHeight<height){
+            maxHeight = height;
+        }
+    }
+    if(root->right){
+        int height = maxDepthBT(root->right);
+        if(maxHeight<height){
+            maxHeight = height;
+        }
+    }
+    return maxHeight + 1;
+}
+
+//Test Binary Tree - 1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
 
 int main()
 {
@@ -207,6 +228,9 @@ int main()
     cout<<"Number of Nodes: "<<countTreeNodes(root)<<endl;
     cout<<endl;
     printInorder(root);
+    cout<<endl;
+
+    cout<<maxDepthBT(root);
 
     delete root;
 
