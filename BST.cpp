@@ -29,6 +29,7 @@ class BST
    ///BFS
    void printTree(BTNode<int> * root)
    {
+       if(!root) return;
        queue<BTNode<int>*> q;
        q.push(root);
 
@@ -44,9 +45,10 @@ class BST
            }
 
            if(f->right){
-            cout<<"R"<<f->right<<" ";
+            cout<<"R"<<f->right->data<<" ";
             q.push(f->right);
            }
+           cout<<endl;
        }
    }
 
@@ -67,7 +69,7 @@ class BST
 
    BTNode<int> * insert(BTNode<int> * node, int data)
    {
-       if(!root){
+       if(!node){
         BTNode<int> * n = new BTNode<int>(data);
         return n;
        }
@@ -126,5 +128,6 @@ int main()
     b.insertData(17);
     b.insertData(8);
     b.insertData(9);
+    b.insertData(3);
     b.print();
 }
